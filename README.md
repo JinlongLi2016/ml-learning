@@ -1,2 +1,2 @@
 # ml-learning
-program exercise for coursera course ML
+Program exercise for coursera course ML
