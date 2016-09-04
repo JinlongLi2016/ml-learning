@@ -53,6 +53,7 @@ for c = 1:num_labels
     options = optimset('GradObj', 'on', 'MaxIter', 50);
     [all_theta(c,:)] = fmincg(@(t)(lrCostFunction(t, X, (y==c),lambda)),...
     initial_theta, options);
+    % '(y==c)' converts it to binary classification problem
     
 
 
