@@ -65,30 +65,49 @@ Theta2_grad = zeros(size(Theta2));
 %%%LJL: before 
 
 a1 = [ones(1,m); X'];   % Add a row of ZERO
-a2 = sigmoid(Theta1 * [a1]);
-a2 = [ones(1,m); a2);  % a2 26*m
-a3 = (sigmoid(Theta2 * [ones(1,m); a2]))%%; % a3 m*10  prediction of i^th sample(i belong to m)
+a2 = sigmoid(Theta1 * a1);
+a2 = [ones(1,m); a2];  % a2 26*m
+a3 = (sigmoid(Theta2 * a2));%%; % a3 m*10  prediction of i^th sample(i belong to m)
 h_Theta = a3;  % h_Theta :The output layer's output
 a3 = [ones(1,m); a3];
 
-%% It seems that there are some errors in understanding
-%% the concept.
-%% [v ix] = max(a3, [], 2);
-%% a3 = zeros(m, num_labels);
-%% for cac=1:length(ix)
-%%    a3(cac, ix(cac)) = 1
-%% end
-J = sum( (y .* log(h_Theta)' + (1-y) .* log(1-h_Theta)' )(:) )/(-m);
+
+%ix1_y = y; ix2_y = 1:m;
+%y = zeros(num_labels, m);
+%y(ix1_y, ix2_y) = 1;
+%y = y';
+%fprintf('sum(y)=%d\n',sum(y));
+%fprintf('sum(h_Theta)=%f\n',sum(h_Theta));
+%fprintf("sum( (y .* log(h_Theta)' + (1-y) .* log(1-h_Theta)' )(:) )/(-m)=%f\n",...
+ix = y;
+y = zeros(num_labels, m);
+
+for cac=1:m
+    y(ix(cac), cac) = 1;
+end
+y = y';
+
+
+J = sum( (y .* log(h_Theta)' + (1-y) .* log(1-h_Theta)' )(:) )/(-m)...
++( sum( (Theta1 .* Theta1 )(:)) + sum(( Theta2.*Theta2 )(:)) )* lambda/(2*m);
+
+
 
 delta3 = h_Theta - y'; % 10*m
-delta2 = Theta2' * delta3 .* (a2 .* (1-a2));  % 26*m
+delta2 = (Theta2' * delta3) .* (a2 .* (1-a2));  % 26*m
+delta2 = delta2(2:end, :); % 25*m
+
+delta1 = ( Theta1' * delta2 ) .* ( a1 .* (1 - a1) );%401*m
 
 
-delta1 = Theta1' * delta2 .* (a1(2:end, :) .* (1 - a1(2:end, :)));
-delta1 = delta1(2:end, :);
+DELTA1 = delta2*(a1)'; %25*401
+DELTA2 = delta3*a2';% 10*26
 
+Theta1_grad(:,1) = DELTA1(:,1)/m ;
+Theta1_grad(:,2:end) = DELTA1(:,2:end)/m + lambda*Theta1(:,2:end); 
 
-
+Theta2_grad(:,1) = DELTA2(:, 1)/m;
+Theta2_grad(:,2:end) = DELTA2(:, 2:end)/m + lambda*Theta2(:, 2:end);
 
 
 
