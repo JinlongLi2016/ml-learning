@@ -61,9 +61,15 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
-a1 = X';
-a2 = sigmoid(Theta1 * [ones(1,m);a1]);
+
+%%%LJL: before 
+
+a1 = [ones(1,m); X'];   % Add a row of ZERO
+a2 = sigmoid(Theta1 * [a1]);
+a2 = [ones(1,m); a2);  % a2 26*m
 a3 = (sigmoid(Theta2 * [ones(1,m); a2]))%%; % a3 m*10  prediction of i^th sample(i belong to m)
+h_Theta = a3;  % h_Theta :The output layer's output
+a3 = [ones(1,m); a3];
 
 %% It seems that there are some errors in understanding
 %% the concept.
@@ -72,8 +78,16 @@ a3 = (sigmoid(Theta2 * [ones(1,m); a2]))%%; % a3 m*10  prediction of i^th sample
 %% for cac=1:length(ix)
 %%    a3(cac, ix(cac)) = 1
 %% end
+J = sum( (y .* log(h_Theta)' + (1-y) .* log(1-h_Theta)' )(:) )/(-m);
 
-y = a3';
+delta3 = h_Theta - y'; % 10*m
+delta2 = Theta2' * delta3 .* (a2 .* (1-a2));  % 26*m
+
+
+delta1 = Theta1' * delta2 .* (a1(2:end, :) .* (1 - a1(2:end, :)));
+delta1 = delta1(2:end, :);
+
+
 
 
 
