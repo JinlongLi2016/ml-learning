@@ -92,7 +92,7 @@ fprintf('\nChecking Cost Function (w/ Regularization) ... \n')
 
 % Weight regularization parameter (we set this to 1 here).
 lambda = 1;
-disp(y);
+% disp(y);
 J = nnCostFunction(nn_params, input_layer_size, hidden_layer_size, ...
                    num_labels, X, y, lambda);
 

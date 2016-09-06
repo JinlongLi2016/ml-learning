@@ -88,26 +88,27 @@ end
 y = y';
 
 
+
 J = sum( (y .* log(h_Theta)' + (1-y) .* log(1-h_Theta)' )(:) )/(-m)...
-+( sum( (Theta1 .* Theta1 )(:)) + sum(( Theta2.*Theta2 )(:)) )* lambda/(2*m);
++( sum( (Theta1(:,2:end) .* Theta1(:, 2:end) )(:)) + sum(( Theta2(:,2:end).*Theta2(:,2:end) )(:)) )* lambda/(2*m);
 
 
 
-delta3 = h_Theta - y'; % 10*m
+delta3 = (h_Theta - y'); % 10*m
 delta2 = (Theta2' * delta3) .* (a2 .* (1-a2));  % 26*m
-delta2 = delta2(2:end, :); % 25*m
+% delta2 = delta2(2:end, :); % 25*m
 
-delta1 = ( Theta1' * delta2 ) .* ( a1 .* (1 - a1) );%401*m
+delta1 = ( Theta1' * delta2(2:end, :) ) .* ( a1 .* (1 - a1) );%401*m
 
 
-DELTA1 = delta2*(a1)'; %25*401
+DELTA1 = delta2(2:end, :)*(a1)'; %25*401
 DELTA2 = delta3*a2';% 10*26
 
 Theta1_grad(:,1) = DELTA1(:,1)/m ;
-Theta1_grad(:,2:end) = DELTA1(:,2:end)/m + lambda*Theta1(:,2:end); 
+Theta1_grad(:,2:end) = DELTA1(:,2:end)/m + lambda*Theta1(:,2:end)/m; 
 
 Theta2_grad(:,1) = DELTA2(:, 1)/m;
-Theta2_grad(:,2:end) = DELTA2(:, 2:end)/m + lambda*Theta2(:, 2:end);
+Theta2_grad(:,2:end) = DELTA2(:, 2:end)/m + lambda*Theta2(:, 2:end)/m;
 
 
 
