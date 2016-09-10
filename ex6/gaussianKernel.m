@@ -15,6 +15,8 @@ sim = 0;
 %               sigma
 %
 %
+distance_vector = x1 -x2;
+sim = exp( -distance_vector' * distance_vector / (2*sigma*sigma) );
 
 
 
