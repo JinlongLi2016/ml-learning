@@ -126,9 +126,9 @@ pause;
 % emailSample1.txt or emailSample2.txt to see different predictions on
 % different emails types). Try your own emails as well!
 filename = 'spamSample1.txt';
-
+myfilename = 'myemail.txt'
 % Read and predict
-file_contents = readFile(filename);
+file_contents = readFile(myfilename);
 word_indices  = processEmail(file_contents);
 x             = emailFeatures(word_indices);
 p = svmPredict(model, x);
