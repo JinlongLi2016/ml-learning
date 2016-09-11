@@ -39,7 +39,7 @@ axis([0 30 0 30]);
 xlabel('Latency (ms)');
 ylabel('Throughput (mb/s)');
 
-fprintf('Program paused. Press enter to continue.\n');
+fprintf('Part 1 finshed.Program paused. Press enter to continue.\n');
 pause
 
 
@@ -65,7 +65,7 @@ visualizeFit(X,  mu, sigma2);
 xlabel('Latency (ms)');
 ylabel('Throughput (mb/s)');
 
-fprintf('Program paused. Press enter to continue.\n');
+fprintf('Part 2 finshed.Program paused. Press enter to continue.\n');
 pause;
 
 %% ================== Part 3: Find Outliers ===================
@@ -88,7 +88,7 @@ hold on
 plot(X(outliers, 1), X(outliers, 2), 'ro', 'LineWidth', 2, 'MarkerSize', 10);
 hold off
 
-fprintf('Program paused. Press enter to continue.\n');
+fprintf('Part 3 finshed.Program paused. Press enter to continue.\n');
 pause;
 
 %% ================== Part 4: Multidimensional Outliers ===================
