@@ -20,6 +20,16 @@ idx = zeros(size(X,1), 1);
 %
 % Note: You can use a for-loop over the examples to compute this.
 %
+m = size(X,1);
+
+for i=1:m
+  temp_matrix = repmat(X(i,:),K,1);
+  d = temp_matrix - centroids;
+  d = d .* d;
+  d = sum(d,2);
+  [val t] = min(d);
+  idx(i) = t;
+end
 
 
 
